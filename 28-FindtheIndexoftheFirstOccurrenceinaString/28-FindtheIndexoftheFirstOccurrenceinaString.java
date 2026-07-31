@@ -1,23 +1,19 @@
-// Last updated: 31/07/2026, 09:15:50
+// Last updated: 31/07/2026, 09:19:45
 1class Solution {
-2    public boolean isIsomorphic(String s, String t) {
-3        HashMap<Character, Integer> charIndexS = new HashMap<>();
-4        HashMap<Character, Integer> charIndexT = new HashMap<>();
-5
-6        for (int i = 0; i < s.length(); i++) {
-7            if (!charIndexS.containsKey(s.charAt(i))) {
-8                charIndexS.put(s.charAt(i), i);
-9            }
-10
-11            if (!charIndexT.containsKey(t.charAt(i))) {
-12                charIndexT.put(t.charAt(i), i);
+2    public char findTheDifference(String s, String t) {
+3        Map<Character, Integer> count = new HashMap<>();
+4        
+5        for (char c : t.toCharArray()) {
+6            count.put(c, count.getOrDefault(c, 0) + 1);
+7        }
+8        
+9        for (char c : s.toCharArray()) {
+10            count.put(c, count.get(c) - 1);
+11            if (count.get(c) == 0) {
+12                count.remove(c);
 13            }
-14
-15            if (!charIndexS.get(s.charAt(i)).equals(charIndexT.get(t.charAt(i)))) {
-16                return false;
-17            }
-18        }
-19
-20        return true;        
-21    }
-22}
+14        }
+15        
+16        return (char) count.keySet().toArray()[0];        
+17    }
+18}
