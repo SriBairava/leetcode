@@ -1,22 +1,14 @@
-// Last updated: 31/07/2026, 09:07:44
-1class Solution 
-2{
-3  public String addBinary(String a, String b) 
-4  {
-5    StringBuilder sb = new StringBuilder();
-6    int carry = 0;
-7    int i = a.length() - 1;
-8    int j = b.length() - 1;
-9
-10    while (i >= 0 || j >= 0 || carry == 1) 
-11    {
-12      if(i >= 0)
-13        carry += a.charAt(i--) - '0';
-14      if(j >= 0)
-15        carry += b.charAt(j--) - '0';
-16      sb.append(carry % 2);
-17      carry /= 2;
-18    }
-19    return sb.reverse().toString();
-20  }
-21}
+// Last updated: 31/07/2026, 09:09:06
+1class Solution {
+2    public String convertToTitle(int columnNumber) {
+3        StringBuilder res = new StringBuilder();
+4
+5        while (columnNumber > 0) {
+6            columnNumber--;
+7            res.insert(0, (char) ((columnNumber % 26) + 'A'));
+8            columnNumber /= 26;
+9        }
+10        
+11        return res.toString();        
+12    }
+13}
