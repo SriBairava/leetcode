@@ -1,26 +1,23 @@
-// Last updated: 31/07/2026, 09:14:58
+// Last updated: 31/07/2026, 09:15:50
 1class Solution {
-2    public boolean isValid(String s) {
-3        Stack<Character> stack = new Stack<>();
-4        for (char ch : s.toCharArray()) {
-5            if (ch == '(' || ch == '[' || ch == '{') {
-6                stack.push(ch);
-7            } else {
-8                if (stack.isEmpty()) {
-9                    return false;
-10                }
-11                char top = stack.pop();
-12                if (ch == ')' && top != '(') {
-13                    return false;
-14                }
-15                if (ch == ']' && top != '[') {
-16                    return false;
-17                }
-18                if (ch == '}' && top != '{') {
-19                    return false;
-20                }
-21            }
-22        }
-23        return stack.isEmpty();
-24    }
-25}
+2    public boolean isIsomorphic(String s, String t) {
+3        HashMap<Character, Integer> charIndexS = new HashMap<>();
+4        HashMap<Character, Integer> charIndexT = new HashMap<>();
+5
+6        for (int i = 0; i < s.length(); i++) {
+7            if (!charIndexS.containsKey(s.charAt(i))) {
+8                charIndexS.put(s.charAt(i), i);
+9            }
+10
+11            if (!charIndexT.containsKey(t.charAt(i))) {
+12                charIndexT.put(t.charAt(i), i);
+13            }
+14
+15            if (!charIndexS.get(s.charAt(i)).equals(charIndexT.get(t.charAt(i)))) {
+16                return false;
+17            }
+18        }
+19
+20        return true;        
+21    }
+22}
