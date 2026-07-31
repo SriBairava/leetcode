@@ -1,11 +1,26 @@
-// Last updated: 31/07/2026, 09:14:10
+// Last updated: 31/07/2026, 09:14:58
 1class Solution {
-2    public int strStr(String haystack, String needle) {
-3        for(int i = 0, j = needle.length(); j<=haystack.length(); i++,j++){
-4            if(haystack.substring(i,j).equals(needle)){
-5                return i;
-6            }
-7        }
-8        return -1;
-9    }
-10}
+2    public boolean isValid(String s) {
+3        Stack<Character> stack = new Stack<>();
+4        for (char ch : s.toCharArray()) {
+5            if (ch == '(' || ch == '[' || ch == '{') {
+6                stack.push(ch);
+7            } else {
+8                if (stack.isEmpty()) {
+9                    return false;
+10                }
+11                char top = stack.pop();
+12                if (ch == ')' && top != '(') {
+13                    return false;
+14                }
+15                if (ch == ']' && top != '[') {
+16                    return false;
+17                }
+18                if (ch == '}' && top != '{') {
+19                    return false;
+20                }
+21            }
+22        }
+23        return stack.isEmpty();
+24    }
+25}
