@@ -1,19 +1,16 @@
-// Last updated: 31/07/2026, 09:19:45
+// Last updated: 31/07/2026, 09:20:13
 1class Solution {
-2    public char findTheDifference(String s, String t) {
-3        Map<Character, Integer> count = new HashMap<>();
-4        
-5        for (char c : t.toCharArray()) {
-6            count.put(c, count.getOrDefault(c, 0) + 1);
-7        }
-8        
-9        for (char c : s.toCharArray()) {
-10            count.put(c, count.get(c) - 1);
-11            if (count.get(c) == 0) {
-12                count.remove(c);
-13            }
-14        }
-15        
-16        return (char) count.keySet().toArray()[0];        
-17    }
-18}
+2    public boolean isSubsequence(String s, String t) {
+3        int sp = 0;
+4        int tp = 0;
+5
+6        while (sp < s.length() && tp < t.length()) {
+7            if (s.charAt(sp) == t.charAt(tp)) {
+8                sp++;
+9            }
+10            tp++;
+11        }
+12
+13        return sp == s.length();        
+14    }
+15}
