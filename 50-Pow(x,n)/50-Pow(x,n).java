@@ -1,24 +1,18 @@
-// Last updated: 03/09/2026, 09:09:49
-1class Solution {
-2    public double myPow(double x, int n) {
-3        
-4        if(n < 0){
-5            n = -n;
-6            x = 1 / x;
-7        }
-8        
-9        double pow = 1;
-10        
-11        while(n != 0){
-12            if((n & 1) != 0){
-13                pow *= x;
-14            } 
-15                
-16            x *= x;
-17            n >>>= 1;
-18            
-19        }
-20        
-21        return pow;
-22    }
-23}
+// Last updated: 03/09/2026, 09:10:49
+1public class Solution {
+2    public boolean hasCycle(ListNode head) {
+3        ListNode fast = head;
+4        ListNode slow = head;
+5
+6        while (fast != null && fast.next != null) {
+7            fast = fast.next.next;
+8            slow = slow.next;
+9
+10            if (fast == slow) {
+11                return true;
+12            }
+13        }
+14
+15        return false;        
+16    }
+17}
