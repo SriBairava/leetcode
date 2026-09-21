@@ -1,27 +1,29 @@
-// Last updated: 21/09/2026, 21:55:58
+// Last updated: 21/09/2026, 22:05:08
 1class Solution {
-2    public ListNode reverseKGroup(ListNode head, int k) {
-3        if (head == null) return null;
-4
-5        ListNode tail = head;
-6        for (int i = 0; i < k; i++) {
-7            if (tail == null) return head;
-8            tail = tail.next;
-9        }
-10
-11        ListNode newHead = reverse(head, tail);
-12        head.next = reverseKGroup(tail, k);
-13        return newHead;
-14    }
-15
-16    private ListNode reverse(ListNode cur, ListNode end) {
-17        ListNode prev = null;
-18        while (cur != end) {
-19            ListNode next = cur.next;
-20            cur.next = prev;
-21            prev = cur;
-22            cur = next;
-23        }
-24        return prev;
-25    }
-26}
+2    public int longestValidParentheses(String s) {
+3        if(s.equals("")){
+4            return 0;
+5        }
+6
+7        Stack<Integer> st = new Stack<>();
+8        st.push(-1);
+9
+10        int max_len = 0;
+11
+12        for(int i=0;i<s.length();i++){
+13            if(s.charAt(i) == '('){
+14                st.push(i);
+15            }
+16            else{
+17                st.pop();
+18                if(st.isEmpty()){
+19                    st.push(i);
+20                }
+21                else{
+22                    max_len = Math.max(max_len,i - st.peek());
+23                }
+24            }
+25        }
+26        return max_len;
+27    }
+28}
