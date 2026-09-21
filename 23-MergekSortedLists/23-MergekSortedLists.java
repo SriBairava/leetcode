@@ -1,28 +1,49 @@
-// Last updated: 21/09/2026, 22:07:44
+// Last updated: 21/09/2026, 22:08:07
 1class Solution {
-2    public List<Integer> spiralOrder(int[][] matrix) {
-3        int rows = matrix.length;
-4        int cols = matrix[0].length;
-5        int x = 0;
-6        int y = 0;
-7        int dx = 1;
-8        int dy = 0;
-9        List<Integer> res = new ArrayList<>();
-10
-11        for (int i = 0; i < rows * cols; i++) {
-12            res.add(matrix[y][x]);
-13            matrix[y][x] = -101; // the range of numbers in matrix is from -100 to 100
-14
-15            if (!(0 <= x + dx && x + dx < cols && 0 <= y + dy && y + dy < rows) || matrix[y+dy][x+dx] == -101) {
-16                int temp = dx;
-17                dx = -dy;
-18                dy = temp;
-19            }
-20
-21            x += dx;
-22            y += dy;
-23        }
-24
-25        return res;        
-26    }
-27}
+2    public int totalNQueens(int n) {
+3        int allPositions = (1 << n) - 1;
+4
+5        return backtrack(
+6            allPositions,
+7            0,
+8            0,
+9            0
+10        );
+11    }
+12
+13    private int backtrack(
+14            int allPositions,
+15            int columns,
+16            int diagonal1,
+17            int diagonal2) {
+18
+19        // All columns are occupied
+20        if (columns == allPositions) {
+21            return 1;
+22        }
+23
+24        // Find all safe positions
+25        int available = allPositions
+26                & ~(columns | diagonal1 | diagonal2);
+27
+28        int count = 0;
+29
+30        while (available != 0) {
+31            // Get the rightmost available position
+32            int position = available & -available;
+33
+34            // Remove this position
+35            available -= position;
+36
+37            // Place queen and move to next row
+38            count += backtrack(
+39                allPositions,
+40                columns | position,
+41                (diagonal1 | position) << 1,
+42                (diagonal2 | position) >> 1
+43            );
+44        }
+45
+46        return count;
+47    }
+48}
