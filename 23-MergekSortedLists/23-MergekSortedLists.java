@@ -1,33 +1,36 @@
-// Last updated: 21/09/2026, 22:16:54
-1// Java
-2class Solution {
-3    public int largestRectangleArea(int[] heights) {
-4        int n = heights.length;
-5        int[] left = new int[n];
-6        int[] right = new int[n];
-7        Stack<Integer> stack = new Stack<>();
-8
-9        // Nearest Smaller to Left
-10        for (int i = 0; i < n; i++) {
-11            while (!stack.isEmpty() && heights[stack.peek()] >= heights[i]) stack.pop();
-12            left[i] = stack.isEmpty() ? -1 : stack.peek();
-13            stack.push(i);
-14        }
-15
-16        stack.clear(); // Reuse stack
+// Last updated: 21/09/2026, 22:17:31
+1/**
+2 * Definition for singly-linked list.
+3 * public class ListNode {
+4 *     int val;
+5 *     ListNode next;
+6 *     ListNode() {}
+7 *     ListNode(int val) { this.val = val; }
+8 *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+9 * }
+10 */
+11class Solution {
+12    public ListNode partition(ListNode head, int x) {
+13        ListNode slist = new ListNode();
+14        ListNode blist = new ListNode();
+15        ListNode small = slist;
+16        ListNode big = blist;
 17
-18        // Nearest Smaller to Right
-19        for (int i = n - 1; i >= 0; i--) {
-20            while (!stack.isEmpty() && heights[stack.peek()] >= heights[i]) stack.pop();
-21            right[i] = stack.isEmpty() ? n : stack.peek();
-22            stack.push(i);
-23        }
-24
-25        int maxArea = 0;
-26        for (int i = 0; i < n; i++) {
-27            int width = right[i] - left[i] - 1;
-28            maxArea = Math.max(maxArea, heights[i] * width);
-29        }
-30        return maxArea;
-31    }
-32}
+18        while (head != null) {
+19            if (head.val < x) {
+20                small.next = head;
+21                small = small.next;
+22            } else {
+23                big.next = head;
+24                big = big.next;
+25            }
+26
+27            head = head.next;
+28        }
+29
+30        small.next = blist.next;
+31        big.next = null;
+32
+33        return slist.next;        
+34    }
+35}
