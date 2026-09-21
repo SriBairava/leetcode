@@ -1,47 +1,33 @@
-// Last updated: 21/09/2026, 22:15:56
-1/**
-2 * Definition for singly-linked list.
-3 * public class ListNode {
-4 *     int val;
-5 *     ListNode next;
-6 *     ListNode() {}
-7 *     ListNode(int val) { this.val = val; }
-8 *     ListNode(int val, ListNode next) {
-9 *         this.val = val;
-10 *         this.next = next;
-11 *     }
-12 * }
-13 */
-14
-15class Solution {
-16    public ListNode deleteDuplicates(ListNode head) {
-17        // Dummy node handles duplicates at the beginning
-18        ListNode dummy = new ListNode(0);
-19        dummy.next = head;
-20
-21        ListNode prev = dummy;
-22        ListNode curr = head;
-23
-24        while (curr != null) {
-25
-26            // Duplicate group found
-27            if (curr.next != null && curr.val == curr.next.val) {
-28                int duplicateValue = curr.val;
-29
-30                // Skip all nodes with this duplicate value
-31                while (curr != null && curr.val == duplicateValue) {
-32                    curr = curr.next;
-33                }
-34
-35                // Connect previous unique node to next distinct node
-36                prev.next = curr;
-37            } else {
-38                // Current node is unique
-39                prev = curr;
-40                curr = curr.next;
-41            }
-42        }
-43
-44        return dummy.next;
-45    }
-46}
+// Last updated: 21/09/2026, 22:16:54
+1// Java
+2class Solution {
+3    public int largestRectangleArea(int[] heights) {
+4        int n = heights.length;
+5        int[] left = new int[n];
+6        int[] right = new int[n];
+7        Stack<Integer> stack = new Stack<>();
+8
+9        // Nearest Smaller to Left
+10        for (int i = 0; i < n; i++) {
+11            while (!stack.isEmpty() && heights[stack.peek()] >= heights[i]) stack.pop();
+12            left[i] = stack.isEmpty() ? -1 : stack.peek();
+13            stack.push(i);
+14        }
+15
+16        stack.clear(); // Reuse stack
+17
+18        // Nearest Smaller to Right
+19        for (int i = n - 1; i >= 0; i--) {
+20            while (!stack.isEmpty() && heights[stack.peek()] >= heights[i]) stack.pop();
+21            right[i] = stack.isEmpty() ? n : stack.peek();
+22            stack.push(i);
+23        }
+24
+25        int maxArea = 0;
+26        for (int i = 0; i < n; i++) {
+27            int width = right[i] - left[i] - 1;
+28            maxArea = Math.max(maxArea, heights[i] * width);
+29        }
+30        return maxArea;
+31    }
+32}
