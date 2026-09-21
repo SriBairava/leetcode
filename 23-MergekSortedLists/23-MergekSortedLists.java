@@ -1,35 +1,24 @@
-// Last updated: 21/09/2026, 22:10:54
+// Last updated: 21/09/2026, 22:12:30
 1class Solution {
-2
-3    public String getPermutation(int n, int k) {
-4
-5        int fact = 1;
-6        List<Integer> numbers = new ArrayList<>();
-7
-8        for (int i = 1; i < n; i++) {
-9            fact = fact * i;
-10            numbers.add(i);
-11        }
-12
-13        numbers.add(n);
-14
-15        String ans = "";
-16
-17        k = k - 1;
-18
-19        while (true) {
-20
-21            ans += numbers.get(k / fact);
-22            numbers.remove(k / fact);
-23
-24            if (numbers.size() == 0) {
-25                break;
-26            }
-27
-28            k = k % fact;
-29            fact = fact / numbers.size();
-30        }
-31
-32        return ans;
-33    }
-34}
+2    public boolean isNumber(String s) {
+3        boolean isdot = false, ise = false, nums = false;
+4        for (int i = 0; i < s.length(); i++) {
+5            char c = s.charAt(i);
+6            if (Character.isDigit(c)) nums = true;
+7            else if (c == '+' || c == '-') {
+8                if (i > 0 && s.charAt(i - 1) != 'e' && s.charAt(i - 1) != 'E') return false;
+9            } 
+10            else if (c == 'e' || c == 'E') {
+11                if (ise || !nums) return false;
+12                ise = true;
+13                nums = false;
+14            } 
+15            else if (c == '.') {
+16                if (isdot || ise) return false;
+17                isdot = true;
+18            } 
+19            else return false;
+20        }
+21        return nums;
+22    }
+23}
