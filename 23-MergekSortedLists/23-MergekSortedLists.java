@@ -1,4 +1,4 @@
-// Last updated: 21/09/2026, 22:21:06
+// Last updated: 21/09/2026, 22:22:17
 1/**
 2 * Definition for a binary tree node.
 3 * public class TreeNode {
@@ -15,18 +15,27 @@
 14 * }
 15 */
 16class Solution {
-17    public static int getHeight(TreeNode root){
-18        if(root == null) return 0;
-19        int left = getHeight(root.left);
-20        int right = getHeight(root.right);
-21        return Math.max(left,right) + 1;
-22    }
-23    public boolean isBalanced(TreeNode root) {
-24        if(root == null ){return true;}
-25
-26        int left = getHeight(root.left);
-27        int right = getHeight(root.right);
-28        if((Math.abs(left-right) <= 1) && isBalanced(root.left) && isBalanced(root.right)){return true;}
-29        else return false;
-30    }
-31}
+17    public int numDistinct(String S, String T) {
+18    // array creation
+19    int[][] mem = new int[T.length()+1][S.length()+1];
+20
+21    // filling the first row: with 1s
+22    for(int j=0; j<=S.length(); j++) {
+23        mem[0][j] = 1;
+24    }
+25    
+26    // the first column is 0 by default in every other rows but the first, which we need.
+27    
+28    for(int i=0; i<T.length(); i++) {
+29        for(int j=0; j<S.length(); j++) {
+30            if(T.charAt(i) == S.charAt(j)) {
+31                mem[i+1][j+1] = mem[i][j] + mem[i+1][j];
+32            } else {
+33                mem[i+1][j+1] = mem[i+1][j];
+34            }
+35        }
+36    }
+37    
+38    return mem[T.length()][S.length()];
+39}
+40}
