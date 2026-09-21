@@ -1,32 +1,32 @@
-// Last updated: 21/09/2026, 22:26:01
+// Last updated: 21/09/2026, 22:27:01
 1class Solution {
-2    int n;
-3    List<List<String>> res=new ArrayList<>();
-4    List<String> path=new ArrayList<>();
-5    public List<List<String>> partition(String s) {
-6        n=s.length();
-7        helper(s,0);
-8        return res;
-9    }
-10    public void helper(String s,int start){
-11        if(start==n){
-12            res.add(new ArrayList<>(path));
-13            return;
+2    public int minCut(String s) {
+3        int n = s.length();
+4        boolean[][] isPalindrome = new boolean[n][n];
+5        int[] minCuts = new int[n];
+6        // Step 1
+7        for (int end = 0; end < n; end++) {
+8            for (int start = 0; start <= end; start++) {
+9                if (s.charAt(start) == s.charAt(end) &&
+10                    (end - start <= 2 || isPalindrome[start + 1][end - 1])) {
+11                    isPalindrome[start][end] = true;
+12                }
+13            }
 14        }
-15        for(int end=start;end<n;end++){
-16            if(isPalindrome(s,start,end)){
-17                path.add(s.substring(start,end+1));
-18                helper(s,end+1);
-19                path.remove(path.size()-1);
-20            }
-21        }}
-22        public boolean isPalindrome(String s,int left,int right){
-23            while(left<=right){
-24                if(s.charAt(left)!=s.charAt(right)) return false;
-25                left++;
-26                right--;
+15        // Step 2:
+16        for (int i = 0; i < n; i++) {
+17            if (isPalindrome[0][i]) {
+18                minCuts[i] = 0; // the whole substring is a palindrome
+19            } else {
+20                int min = i;
+21                for (int j = 0; j < i; j++) {
+22                    if (isPalindrome[j + 1][i]) {
+23                        min = Math.min(min, minCuts[j] + 1);
+24                    }
+25                }
+26                minCuts[i] = min;
 27            }
-28            return true;
-29        
+28        }
+29        return minCuts[n - 1];
 30    }
 31}
