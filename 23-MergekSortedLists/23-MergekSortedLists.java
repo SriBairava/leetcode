@@ -1,32 +1,26 @@
-// Last updated: 21/09/2026, 22:27:01
+// Last updated: 21/09/2026, 22:27:52
 1class Solution {
-2    public int minCut(String s) {
-3        int n = s.length();
-4        boolean[][] isPalindrome = new boolean[n][n];
-5        int[] minCuts = new int[n];
-6        // Step 1
-7        for (int end = 0; end < n; end++) {
-8            for (int start = 0; start <= end; start++) {
-9                if (s.charAt(start) == s.charAt(end) &&
-10                    (end - start <= 2 || isPalindrome[start + 1][end - 1])) {
-11                    isPalindrome[start][end] = true;
-12                }
-13            }
-14        }
-15        // Step 2:
-16        for (int i = 0; i < n; i++) {
-17            if (isPalindrome[0][i]) {
-18                minCuts[i] = 0; // the whole substring is a palindrome
-19            } else {
-20                int min = i;
-21                for (int j = 0; j < i; j++) {
-22                    if (isPalindrome[j + 1][i]) {
-23                        min = Math.min(min, minCuts[j] + 1);
-24                    }
-25                }
-26                minCuts[i] = min;
-27            }
-28        }
-29        return minCuts[n - 1];
-30    }
-31}
+2    List<String> results;
+3    HashSet<String> dict;
+4    public List<String> wordBreak(String s, List<String> wordDict) {
+5        results = new ArrayList<>();
+6        dict = new HashSet<String>();
+7        for(String word: wordDict)dict.add(word);
+8        backTrack(s,0,new StringBuilder());
+9        return results;
+10        
+11    }
+12    
+13    public void backTrack(String s, int start, StringBuilder currentSentence){
+14        if(start==s.length()) results.add(currentSentence.toString().trim());
+15        for(int i = start; i<s.length();i++){
+16            if(dict.contains(s.substring(start,i+1))) {
+17                int len = currentSentence.length();
+18                currentSentence.append(s.substring(start,i+1));
+19                currentSentence.append(" ");
+20                backTrack(s,i+1,currentSentence);
+21                currentSentence.setLength(len);
+22            }
+23        }
+24    }
+25}
