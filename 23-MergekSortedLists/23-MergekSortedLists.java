@@ -1,25 +1,39 @@
-// Last updated: 21/09/2026, 21:51:54
+// Last updated: 21/09/2026, 21:53:18
 1class Solution {
-2    public List<String> generateParenthesis(int n) {
-3        List<String> res = new ArrayList<>();
-4
-5        dfs(0, 0, "", n, res);
+2    public ListNode mergeKLists(ListNode[] lists) {
+3        if (lists == null || lists.length == 0) {
+4            return null;
+5        }
 6
-7        return res;        
-8    }
-9
-10    private void dfs(int openP, int closeP, String s, int n, List<String> res) {
-11        if (openP == closeP && openP + closeP == n * 2) {
-12            res.add(s);
-13            return;
-14        }
-15
-16        if (openP < n) {
-17            dfs(openP + 1, closeP, s + "(", n, res);
-18        }
+7        while (lists.length > 1) {
+8            List<ListNode> temp = new ArrayList<>();
+9            for (int i = 0; i < lists.length; i += 2) {
+10                ListNode l1 = lists[i];
+11                ListNode l2 = i + 1 < lists.length ? lists[i + 1] : null;
+12                temp.add(mergeLists(l1, l2));
+13            }
+14            lists = temp.toArray(new ListNode[0]);
+15        }
+16
+17        return lists[0];        
+18    }
 19
-20        if (closeP < openP) {
-21            dfs(openP, closeP + 1, s + ")", n, res);
-22        }
-23    }    
-24}
+20    private ListNode mergeLists(ListNode l1, ListNode l2) {
+21        ListNode node = new ListNode();
+22        ListNode ans = node;
+23
+24        while (l1 != null && l2 != null) {
+25            if (l1.val > l2.val) {
+26                node.next = l2;
+27                l2 = l2.next;
+28            } else {
+29                node.next = l1;
+30                l1 = l1.next;
+31            }
+32            node = node.next;
+33        }
+34
+35        node.next = l1 != null ? l1 : l2;
+36        return ans.next;
+37    }    
+38}
