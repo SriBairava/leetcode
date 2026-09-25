@@ -1,15 +1,24 @@
-// Last updated: 25/09/2026, 07:40:53
-1public class Solution {
-2    public int missingNumber(int[] nums) {
-3        int n = nums.length;
-4        int ans = 0;
-5        for (int i = 1; i <= n; i++) {
-6            ans = ans ^ i;
-7        }
-8        for (int i = 0; i < nums.length; i++) {
-9            ans = ans ^ nums[i];
-10        }
-11        return ans;
-12    }
-13}
-14
+// Last updated: 25/09/2026, 07:41:15
+1class NumArray {
+2    int prefix[];
+3    public NumArray(int[] nums) {
+4        int n = nums.length;
+5        prefix=new int[nums.length];
+6        prefix[0] = nums[0];
+7        for(int i=1;i<n;i++){
+8            prefix[i] = prefix[i-1]+nums[i];
+9        }       
+10    }
+11    
+12    public int sumRange(int left, int right) {
+13        if(left==0)
+14            return prefix[right];
+15        return prefix[right] - prefix[left-1];
+16    }
+17}
+18
+19/**
+20 * Your NumArray object will be instantiated and called as such:
+21 * NumArray obj = new NumArray(nums);
+22 * int param_1 = obj.sumRange(left,right);
+23 */
