@@ -1,25 +1,36 @@
-// Last updated: 25/09/2026, 08:04:46
+// Last updated: 25/09/2026, 08:05:01
 1public class Solution {
-2    public String[] findWords(String[] words) {
-3        String[] strs = {"QWERTYUIOP","ASDFGHJKL","ZXCVBNM"};
-4        Map<Character, Integer> map = new HashMap<>();
-5        for(int i = 0; i<strs.length; i++){
-6            for(char c: strs[i].toCharArray()){
-7                map.put(c, i);//put <char, rowIndex> pair into the map
-8            }
-9        }
-10        List<String> res = new LinkedList<>();
-11        for(String w: words){
-12            if(w.equals("")) continue;
-13            int index = map.get(w.toUpperCase().charAt(0));
-14            for(char c: w.toUpperCase().toCharArray()){
-15                if(map.get(c)!=index){
-16                    index = -1; //don't need a boolean flag. 
-17                    break;
-18                }
-19            }
-20            if(index!=-1) res.add(w);//if index != -1, this is a valid string
-21        }
-22        return res.toArray(new String[0]);
-23    }
-24}
+2    Integer prev = null;
+3    int count = 1;
+4    int max = 0;
+5    public int[] findMode(TreeNode root) {
+6        if (root == null) return new int[0];
+7        
+8        List<Integer> list = new ArrayList<>();
+9        traverse(root, list);
+10        
+11        int[] res = new int[list.size()];
+12        for (int i = 0; i < list.size(); ++i) res[i] = list.get(i);
+13        return res;
+14    }
+15    
+16    private void traverse(TreeNode root, List<Integer> list) {
+17        if (root == null) return;
+18        traverse(root.left, list);
+19        if (prev != null) {
+20            if (root.val == prev)
+21                count++;
+22            else
+23                count = 1;
+24        }
+25        if (count > max) {
+26            max = count;
+27            list.clear();
+28            list.add(root.val);
+29        } else if (count == max) {
+30            list.add(root.val);
+31        }
+32        prev = root.val;
+33        traverse(root.right, list);
+34    }
+35}
