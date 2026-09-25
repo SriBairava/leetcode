@@ -1,53 +1,26 @@
-// Last updated: 25/09/2026, 07:52:49
+// Last updated: 25/09/2026, 07:53:19
 1class Solution {
-2    public int myAtoi(String s) {
-3        if (s == null || s.length() == 0) {
-4            return 0;
-5        }
-6        
-7        // Constants for 32-bit signed integer range
-8        final int INT_MAX = Integer.MAX_VALUE;
-9        final int INT_MIN = Integer.MIN_VALUE;
-10        
-11        int i = 0;
-12        int n = s.length();
-13        
-14        // Step 1: Skip leading whitespace
-15        while (i < n && s.charAt(i) == ' ') {
-16            i++;
-17        }
-18        
-19        // Check if we've reached the end
-20        if (i == n) {
-21            return 0;
-22        }
-23        
-24        // Step 2: Check for sign
-25        int sign = 1;
-26        if (s.charAt(i) == '+') {
-27            i++;
-28        } else if (s.charAt(i) == '-') {
-29            sign = -1;
-30            i++;
-31        }
-32        
-33        // Step 3: Read digits and convert
-34        long res = 0;
-35        while (i < n && Character.isDigit(s.charAt(i))) {
-36            int digit = s.charAt(i) - '0';
-37            res = res * 10 + digit;
-38            
-39            if (sign * res <= INT_MIN) {
-40                return INT_MIN;
-41            }
-42            if (sign * res >= INT_MAX) {
-43                return INT_MAX;
-44            }
-45            
-46            i++;
-47        }
-48        
-49        // Step 4: Apply sign and return
-50        return (int)(res * sign);        
-51    }
-52}
+2    public int threeSumClosest(int[] nums, int target) {
+3        Arrays.sort(nums);
+4        int n = nums.length;
+5        int result = nums[0] + nums[1] + nums[2]; // Initial best guess
+6
+7        for (int i = 0; i < n - 2; i++) {
+8            int left = i + 1, right = n - 1;
+9
+10            while (left < right) {
+11                int sum = nums[i] + nums[left] + nums[right];
+12
+13                if (Math.abs(target - sum) < Math.abs(target - result)) {
+14                    result = sum;
+15                }
+16
+17                if (sum == target) return target;
+18                else if (sum < target) left++;
+19                else right--;
+20            }
+21        }
+22
+23        return result;
+24    }
+25}
