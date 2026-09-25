@@ -1,25 +1,28 @@
-// Last updated: 25/09/2026, 07:57:43
+// Last updated: 25/09/2026, 08:03:32
 1class Solution {
-2    public void rotate(int[][] matrix) {
-3        int n = matrix.length;
+2    public ListNode rotateRight(ListNode head, int k) {
+3        if (head == null) return head;
 4
-5        for (int i = 0; i < n; i++) {
-6            for (int j = i + 1; j < n; j++) {
-7                int temp = matrix[i][j];
-8                matrix[i][j] = matrix[j][i];
-9                matrix[j][i] = temp;
-10            }
+5        int length = 1;
+6        ListNode dummy = head;
+7
+8        while (dummy.next != null) {
+9            dummy = dummy.next;
+10            length++;
 11        }
 12
-13        for (int i = 0; i < n; i++) {
-14            int l = 0, r = n - 1;
-15            while (l < r) {
-16                int temp = matrix[i][l];
-17                matrix[i][l] = matrix[i][r];
-18                matrix[i][r] = temp;
-19                l++;
-20                r--;
-21            }
-22        }
-23    }
-24}
+13        int position = k % length;
+14        if (position == 0) return head;
+15
+16        ListNode current = head;
+17        for (int i = 0; i < length - position - 1; i++) {
+18            current = current.next;
+19        }
+20
+21        ListNode newHead = current.next;
+22        current.next = null;
+23        dummy.next = head;
+24
+25        return newHead;        
+26    }
+27}
