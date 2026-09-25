@@ -1,23 +1,24 @@
-// Last updated: 25/09/2026, 07:42:28
-1import java.util.*;
-2
-3class Solution {
-4    public int[] intersect(int[] nums1, int[] nums2) {
-5        Arrays.sort(nums1);
-6        Arrays.sort(nums2);
-7
-8        int i = 0, j = 0, k = 0;
-9        while (i < nums1.length && j < nums2.length) {
-10            if (nums1[i] == nums2[j]) {
-11                nums1[k++] = nums1[i];
-12                i++;
-13                j++;
-14            } else if (nums1[i] < nums2[j]) {
-15                i++;
-16            } else {
-17                j++;
+// Last updated: 25/09/2026, 07:42:48
+1class Solution {
+2    public List<String> readBinaryWatch(int turnedOn) {
+3        List<String> result = new ArrayList<>();
+4        
+5        for (int hour = 0; hour < 12; hour++) {
+6            
+7            for (int minute = 0; minute < 60; minute++) {
+8                
+9                int totalBits = Integer.bitCount(hour) + Integer.bitCount(minute);
+10                
+11                if (totalBits == turnedOn) {
+12                    
+13                    String time = hour + ":" + 
+14                                  (minute < 10 ? "0" + minute : minute);
+15                    
+16                    result.add(time);
+17                }
 18            }
 19        }
-20        return Arrays.copyOfRange(nums1, 0, k);
-21    }
-22}
+20        
+21        return result;
+22    }
+23}
