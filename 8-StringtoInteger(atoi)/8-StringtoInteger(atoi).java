@@ -1,41 +1,25 @@
-// Last updated: 25/09/2026, 07:54:08
+// Last updated: 25/09/2026, 07:54:34
 1class Solution {
-2    public int divide(int dividend, int divisor) {
-3        long a = dividend;
-4        long b = divisor;
-5
-6        boolean negative = (a < 0) ^ (b < 0);
-7
-8        a = Math.abs(a);
-9        b = Math.abs(b);
-10
-11        long quotient = 0;
-12
-13        while (a >= b) {
-14            long currentDivisor = b;
-15            long multiple = 1;
-16
-17            while (a >= currentDivisor + currentDivisor) {
-18                currentDivisor += currentDivisor;
-19                multiple += multiple;
-20            }
-21
-22            a -= currentDivisor;
-23            quotient += multiple;
-24        }
-25
-26        if (negative) {
-27            quotient = -quotient;
-28        }
-29
-30        if (quotient > Integer.MAX_VALUE) {
-31            return Integer.MAX_VALUE;
-32        }
-33
-34        if (quotient < Integer.MIN_VALUE) {
-35            return Integer.MIN_VALUE;
-36        }
-37
-38        return (int) quotient;
-39    }
-40}
+2    public String countAndSay(int n) {
+3        String res = "1";
+4        for (int i = 1; i < n; i++) {
+5            res = buildNext(res);
+6        }
+7        return res;
+8    }
+9
+10    private String buildNext(String s) {
+11        StringBuilder result = new StringBuilder();
+12        int count = 1;
+13        for (int i = 1; i < s.length(); i++) {
+14            if (s.charAt(i) == s.charAt(i - 1)) {
+15                count++;
+16            } else {
+17                result.append(count).append(s.charAt(i - 1));
+18                count = 1;
+19            }
+20        }
+21        result.append(count).append(s.charAt(s.length() - 1));
+22        return result.toString();
+23    }
+24}
