@@ -1,7 +1,16 @@
-// Last updated: 25/09/2026, 07:44:31
+// Last updated: 25/09/2026, 07:47:52
 1class Solution {
-2        public boolean repeatedSubstringPattern(String str) {
-3        String s = str + str;
-4        return s.substring(1, s.length() - 1).contains(str);
-5    }
-6}
+2    public int hammingDistance(int x, int y) {
+3        int z = x^y,count=0;
+4        while(z>0)
+5        {
+6            if((z&1)==1)
+7            {
+8                count++;
+9            }
+10            z = z>>>1;
+11        }
+12
+13        return count;
+14    }
+15}
